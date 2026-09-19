@@ -9,17 +9,16 @@ local Lighting = game:GetService("Lighting")
 local UserInputService = game:GetService("UserInputService")
 local Camera = workspace.CurrentCamera
 
--- Запуск строго внутри PlayerGui (Не поверх ESC меню)
-local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-if PlayerGui:FindFirstChild("LunaByAltron") then
-    PlayerGui:FindFirstChild("LunaByAltron"):Destroy()
+-- Фикс инициализации: Безопасное создание в CoreGui с поведением внутри плейса
+if game:GetService("CoreGui"):FindFirstChild("LunaByAltron") then
+    game:GetService("CoreGui"):FindFirstChild("LunaByAltron"):Destroy()
 end
 
 local LunaGui = Instance.new("ScreenGui")
 LunaGui.Name = "LunaByAltron"
 LunaGui.ResetOnSpawn = false
 LunaGui.DisplayOrder = 1 -- Стандартный приоритет, Esc будет ПОВЕРХ меню
-LunaGui.Parent = PlayerGui
+LunaGui.Parent = game:GetService("CoreGui")
 
 -- Главный фрейм
 local MainFrame = Instance.new("Frame")
@@ -450,7 +449,7 @@ createToggle(tab_chm, "Minecraft Shader Chams", function(state)
     end
 end)
 
--- 9. Раздел World Modulation (Night Mode и Космическое небо)
+-- 9. Раздел World Modulation (Night Mode)
 local originalTime = Lighting.TimeOfDay
 createToggle(tab_wld, "Minecraft Night Mode", function(state)
     Lighting.TimeOfDay = state and "00:00:00" or originalTime
@@ -463,35 +462,37 @@ createToggle(tab_lit, "Enable Fullbright", function(state)
 end)
 
 -- ==========================================
--- ИСПРАВЛЕННЫЙ ХОТКЕЙ И РЕАЛЬНЫЕ 360 ВЬЮПОРТЫ
+-- ИСПРАВЛЕННЫЙ ХОТКЕЙ И БЕЗОПАСНЫЙ РЕНДЕР
 -- ==========================================
 
--- Кнопка закрытия меню на RIGHT SHIFT (Внутренняя логика)
+-- Кнопка закрытия меню на RIGHT SHIFT (Полная привязка)
 UserInputService.InputBegan:Connect(function(input, processed)
     if not processed and input.KeyCode == Enum.KeyCode.RightShift then
         LunaGui.Enabled = not LunaGui.Enabled
     end
 end)
 
--- Продвинутая функция реального клонирования твоего персонажа во вьюпорт
+-- Безопасная загрузка твоего реального скина через UserId (Без вылетов)
 local function setupPlayerViewport()
     local cam = Instance.new("Camera", PreviewViewport)
     cam.FieldOfView = 40
     PreviewViewport.CurrentCamera = cam
     
-    local function refreshCharacter()
-        PreviewViewport:ClearAllChildren()
-        local originalChar = LocalPlayer.Character
-        if originalChar then
-            originalChar.Archivable = true
-            local clone = originalChar:Clone()
-            clone.Parent = PreviewViewport
-            originalChar.Archivable = false
+    local success, model = pcall(function()
+        return Players:CreateHumanoidModelFromUserId(LocalPlayer.UserId)
+    end)
+    
+    if success and model then
+        model.Parent = PreviewViewport
+        local hrp = model:WaitForChild("HumanoidRootPart", 5) or model:FindFirstChildOfClass("Part")
+        if hrp then
+            local sb = Instance.new("SelectionBox", PreviewViewport)
+            sb.Adornee = model
+            sb.Color3 = Color3.fromRGB(138, 43, 226)
+            sb.LineThickness = 0.015
             
-            local hrp = clone:WaitForChild("HumanoidRootPart", 5)
-            if hrp then
-                local angle = 0
-                RunService.RenderStepped:Connect(function(dt)
-                    if clone and clone.Parent then
-                        angle = angle + (dt * 30)
-                        local rad = math.radians(angle)
+            local angle = 0
+            RunService.RenderStepped:Connect(function(dt)
+                if model and model.Parent then
+                    angle = angle + (dt * 30)
+                    local rad = math.radians(angle)
