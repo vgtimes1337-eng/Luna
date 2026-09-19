@@ -1,5 +1,5 @@
--- [[ Luna By ALTRON - PREMIUM VISUALS SUITE (PART 1) ]] --
--- Price: 10$ / 1000 RUB | Developer: ALTRON
+-- [[ Luna By ALTRON - MINECRAFT NEON EDITION ]] --
+-- Developer: ALTRON
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -9,44 +9,46 @@ local Lighting = game:GetService("Lighting")
 local UserInputService = game:GetService("UserInputService")
 local Camera = workspace.CurrentCamera
 
-if game:GetService("CoreGui"):FindFirstChild("LunaByAltron") then
-    game:GetService("CoreGui"):FindFirstChild("LunaByAltron"):Destroy()
+-- Запуск строго внутри PlayerGui (Не поверх ESC меню)
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+if PlayerGui:FindFirstChild("LunaByAltron") then
+    PlayerGui:FindFirstChild("LunaByAltron"):Destroy()
 end
 
 local LunaGui = Instance.new("ScreenGui")
 LunaGui.Name = "LunaByAltron"
 LunaGui.ResetOnSpawn = false
-LunaGui.Parent = game:GetService("CoreGui")
+LunaGui.DisplayOrder = 1 -- Стандартный приоритет, Esc будет ПОВЕРХ меню
+LunaGui.Parent = PlayerGui
 
+-- Главный фрейм
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 750, 0, 480)
-MainFrame.Position = UDim2.new(0.5, -375, 0.5, -240)
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+MainFrame.Size = UDim2.new(0, 780, 0, 500)
+MainFrame.Position = UDim2.new(0.5, -390, 0.5, -250)
+MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 MainFrame.BorderSizePixel = 1
-MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.BorderColor3 = Color3.fromRGB(0, 255, 255)
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Parent = LunaGui
 
+local GlowLine = Instance.new("Frame")
+GlowLine.Size = UDim2.new(1, 0, 0, 2)
+GlowLine.BackgroundColor3 = Color3.fromRGB(138, 43, 226)
+GlowLine.BorderSizePixel = 0
+GlowLine.Parent = MainFrame
+
+-- Правая панель (Премиум визуализатор твоей одежды и скина)
 local PreviewPane = Instance.new("Frame")
-PreviewPane.Size = UDim2.new(0, 240, 0, 480)
-PreviewPane.Position = UDim2.new(1, -240, 0, 0)
-PreviewPane.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+PreviewPane.Size = UDim2.new(0, 240, 1, -2)
+PreviewPane.Position = UDim2.new(1, -240, 0, 2)
+PreviewPane.BackgroundColor3 = Color3.fromRGB(7, 7, 7)
 PreviewPane.BorderSizePixel = 0
 PreviewPane.Parent = MainFrame
 
-local PreviewTitle = Instance.new("TextLabel")
-PreviewTitle.Size = UDim2.new(1, 0, 0, 30)
-PreviewTitle.BackgroundTransparency = 1
-PreviewTitle.Text = "SKIN VISUALIZER"
-PreviewTitle.TextColor3 = Color3.fromRGB(120, 120, 120)
-PreviewTitle.TextSize = 10
-PreviewTitle.Font = Enum.Font.GothamBold
-PreviewTitle.Parent = PreviewPane
-
 local PreviewViewport = Instance.new("ViewportFrame")
-PreviewViewport.Size = UDim2.new(1, -20, 0, 220)
+PreviewViewport.Size = UDim2.new(1, -20, 0, 240)
 PreviewViewport.Position = UDim2.new(0, 10, 0, 30)
 PreviewViewport.BackgroundTransparency = 1
 PreviewViewport.Parent = PreviewPane
@@ -54,35 +56,36 @@ PreviewViewport.Parent = PreviewPane
 local FurryBait = Instance.new("Frame")
 FurryBait.Size = UDim2.new(1, -20, 0, 180)
 FurryBait.Position = UDim2.new(0, 10, 1, -200)
-FurryBait.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+FurryBait.BackgroundColor3 = Color3.fromRGB(4, 4, 4)
 FurryBait.BorderSizePixel = 1
-FurryBait.BorderColor3 = Color3.fromRGB(30, 30, 30)
+FurryBait.BorderColor3 = Color3.fromRGB(0, 255, 255)
 FurryBait.Parent = PreviewPane
 
 local FurryText = Instance.new("TextLabel")
 FurryText.Size = UDim2.new(1, 0, 1, 0)
 FurryText.BackgroundTransparency = 1
-FurryText.Text = "LUNA WAIFU RENDER\n[Premium Bait Active]"
-FurryText.TextColor3 = Color3.fromRGB(80, 80, 80)
+FurryText.Text = "LUNA FURRY RENDERER\n[Premium Engine Active]"
+FurryText.TextColor3 = Color3.fromRGB(138, 43, 226)
 FurryText.TextSize = 11
 FurryText.Font = Enum.Font.GothamBold
 FurryText.Parent = FurryBait
 
+-- Второе окно (Бекон 360)
 local SideMenu = Instance.new("Frame")
 SideMenu.Name = "SideMenu"
-SideMenu.Size = UDim2.new(0, 260, 0, 480)
+SideMenu.Size = UDim2.new(0, 260, 0, 500)
 SideMenu.Position = UDim2.new(1, 10, 0, 0)
-SideMenu.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+SideMenu.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 SideMenu.BorderSizePixel = 1
-SideMenu.BorderColor3 = Color3.fromRGB(50, 50, 50)
+SideMenu.BorderColor3 = Color3.fromRGB(138, 43, 226)
 SideMenu.Parent = MainFrame
 
 local SideHeader = Instance.new("TextLabel")
 SideHeader.Size = UDim2.new(1, 0, 0, 40)
-SideHeader.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+SideHeader.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
 SideHeader.BorderSizePixel = 0
-SideHeader.Text = "BACON VIEWPORT (360)"
-SideHeader.TextColor3 = Color3.fromRGB(255, 255, 255)
+SideHeader.Text = "BACON TARGET VIEWPORT"
+SideHeader.TextColor3 = Color3.fromRGB(0, 255, 255)
 SideHeader.TextSize = 11
 SideHeader.Font = Enum.Font.GothamBold
 SideHeader.Parent = SideMenu
@@ -93,8 +96,10 @@ SideViewport.Position = UDim2.new(0, 10, 0, 50)
 SideViewport.BackgroundTransparency = 1
 SideViewport.Parent = SideMenu
 
+-- Боковая панель (Левая колонка)
 local Sidebar = Instance.new("Frame")
-Sidebar.Size = UDim2.new(0, 180, 1, 0)
+Sidebar.Size = UDim2.new(0, 180, 1, -2)
+Sidebar.Position = UDim2.new(0, 0, 0, 2)
 Sidebar.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
 Sidebar.BorderSizePixel = 0
 Sidebar.Parent = MainFrame
@@ -108,37 +113,28 @@ Title.TextSize = 14
 Title.Font = Enum.Font.GothamBold
 Title.Parent = Sidebar
 
+-- Блок профиля
 local UserProfileBar = Instance.new("Frame")
-UserProfileBar.Size = UDim2.new(1, -10, 0, 70)
-UserProfileBar.Position = UDim2.new(0, 5, 1, -75)
+UserProfileBar.Size = UDim2.new(1, -10, 0, 45)
+UserProfileBar.Position = UDim2.new(0, 5, 1, -50)
 UserProfileBar.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-UserProfileBar.BorderSizePixel = 0
+UserProfileBar.BorderSizePixel = 1
+UserProfileBar.BorderColor3 = Color3.fromRGB(30, 30, 30)
 UserProfileBar.Parent = Sidebar
 
 local UserNameLabel = Instance.new("TextLabel")
-UserNameLabel.Size = UDim2.new(1, -10, 0, 20)
-UserNameLabel.Position = UDim2.new(0, 5, 0, 5)
+UserNameLabel.Size = UDim2.new(1, -10, 1, 0)
+UserNameLabel.Position = UDim2.new(0, 10, 0, 0)
 UserNameLabel.BackgroundTransparency = 1
 UserNameLabel.Text = "User: " .. LocalPlayer.Name
-UserNameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+UserNameLabel.TextColor3 = Color3.fromRGB(0, 255, 255)
 UserNameLabel.TextSize = 11
 UserNameLabel.Font = Enum.Font.GothamBold
 UserNameLabel.TextXAlignment = Enum.TextXAlignment.Left
 UserNameLabel.Parent = UserProfileBar
 
-local PriceText = Instance.new("TextLabel")
-PriceText.Size = UDim2.new(1, -10, 0, 15)
-PriceText.Position = UDim2.new(0, 5, 0, 25)
-PriceText.BackgroundTransparency = 1
-PriceText.Text = "Normal: 10$ / 1000 RUB"
-PriceText.TextColor3 = Color3.fromRGB(168, 75, 62)
-PriceText.TextSize = 9
-PriceText.Font = Enum.Font.Gotham
-PriceText.TextXAlignment = Enum.TextXAlignment.Left
-PriceText.Parent = UserProfileBar
-
 local ScrollTabs = Instance.new("ScrollingFrame")
-ScrollTabs.Size = UDim2.new(1, 0, 1, -135)
+ScrollTabs.Size = UDim2.new(1, 0, 1, -110)
 ScrollTabs.Position = UDim2.new(0, 0, 0, 50)
 ScrollTabs.BackgroundTransparency = 1
 ScrollTabs.CanvasSize = UDim2.new(0, 0, 0, 620)
@@ -149,8 +145,9 @@ local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.Padding = UDim.new(0, 2)
 UIListLayout.Parent = ScrollTabs
 
+-- Центральный контейнер настроек
 local ContentContainer = Instance.new("Frame")
-ContentContainer.Size = UDim2.new(1, -430, 1, -10)
+ContentContainer.Size = UDim2.new(1, -430, 1, -12)
 ContentContainer.Position = UDim2.new(0, 185, 0, 5)
 ContentContainer.BackgroundTransparency = 1
 ContentContainer.Parent = MainFrame
@@ -161,7 +158,7 @@ local function createPage(pageName)
     PageFrame.Size = UDim2.new(1, 0, 1, 0)
     PageFrame.BackgroundTransparency = 1
     PageFrame.Visible = false
-    PageFrame.CanvasSize = UDim2.new(0, 0, 0, 600)
+    PageFrame.CanvasSize = UDim2.new(0, 0, 0, 650)
     PageFrame.ScrollBarThickness = 2
     PageFrame.Parent = ContentContainer
     
@@ -172,10 +169,10 @@ local function createPage(pageName)
     
     local TabBtn = Instance.new("TextButton")
     TabBtn.Size = UDim2.new(1, -10, 0, 26)
-    TabBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    TabBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
     TabBtn.BackgroundTransparency = 1
     TabBtn.Text = "  " .. pageName
-    TabBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
+    TabBtn.TextColor3 = Color3.fromRGB(110, 110, 110)
     TabBtn.TextXAlignment = Enum.TextXAlignment.Left
     TabBtn.Font = Enum.Font.GothamSemibold
     TabBtn.TextSize = 11
@@ -184,11 +181,11 @@ local function createPage(pageName)
     TabBtn.MouseButton1Click:Connect(function()
         for _, p in pairs(Pages) do p.Visible = false end
         for _, b in pairs(ScrollTabs:GetChildren()) do
-            if b:IsA("TextButton") then b.BackgroundTransparency = 1 b.TextColor3 = Color3.fromRGB(120, 120, 120) end
+            if b:IsA("TextButton") then b.BackgroundTransparency = 1 b.TextColor3 = Color3.fromRGB(110, 110, 110) end
         end
         PageFrame.Visible = true
         TabBtn.BackgroundTransparency = 0
-        TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TabBtn.TextColor3 = Color3.fromRGB(0, 255, 255)
     end)
     return PageFrame
 end
@@ -196,7 +193,7 @@ end
 local function createToggle(pageFrame, toggleName, callback)
     local Row = Instance.new("Frame")
     Row.Size = UDim2.new(1, -10, 0, 35)
-    Row.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+    Row.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     Row.BorderSizePixel = 0
     Row.Parent = pageFrame
     
@@ -224,13 +221,14 @@ local function createToggle(pageFrame, toggleName, callback)
     local active = false
     Btn.MouseButton1Click:Connect(function()
         active = not active
-        Btn.BackgroundColor3 = active and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(35, 35, 35)
+        Btn.BackgroundColor3 = active and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(35, 35, 35)
         Btn.TextColor3 = active and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(120, 120, 120)
         Btn.Text = active and "ON" or "OFF"
         callback(active)
     end)
 end
 
+-- Все 20 вкладок
 local tab_vis = createPage("Visuals")
 local tab_skn = createPage("Skin Changer")
 local tab_esp = createPage("ESP & Arrows")
@@ -255,9 +253,11 @@ local tab_set = createPage("Menu Settings")
 Pages["Visuals"].Visible = true
 -- [[ LUNA BY ALTRON: PREMIUM VISUALS SUITE (PART 2) ]] --
 
--- НАПОЛНЕНИЕ РАЗДЕЛОВ И ЛОГИКА ФУНКЦИЙ
+-- ==========================================
+-- ПРЕМИУМ ЛОГИКА ВИЗУАЛОВ И ЭКСПЛОИТОВ
+-- ==========================================
 
--- 1. Раздел Visuals (Премиум-кристалл над головой и Лазерное светящееся кольцо)
+-- 1. Раздел Visuals (Премиум-кристалл и Пульсирующее лазерное кольцо)
 local hatConnection = nil
 createToggle(tab_vis, "Premium Diamond Indicator", function(state)
     local char = LocalPlayer.Character
@@ -265,7 +265,7 @@ createToggle(tab_vis, "Premium Diamond Indicator", function(state)
         local crystal = Instance.new("Part")
         crystal.Name = "LunaPremiumCrystal"
         crystal.Size = Vector3.new(0.6, 1.2, 0.6)
-        crystal.Color = Color3.fromRGB(255, 255, 255)
+        crystal.Color = Color3.fromRGB(0, 255, 255)
         crystal.Material = Enum.Material.Neon
         crystal.CanCollide = false
         crystal.Parent = char
@@ -299,7 +299,7 @@ createToggle(tab_vis, "Neon Pulse Laser Ring", function(state)
         local ring = Instance.new("Part")
         ring.Name = "LunaLaserRing"
         ring.Size = Vector3.new(4, 0.05, 4)
-        ring.Color = Color3.fromRGB(255, 255, 255)
+        ring.Color = Color3.fromRGB(138, 43, 226)
         ring.Material = Enum.Material.Neon
         ring.CanCollide = false
         ring.Parent = char
@@ -346,7 +346,7 @@ end)
 
 -- 3. Раздел ESP & Arrows
 local espBoxes = {}
-createToggle(tab_esp, "Enable Premium 3D Box ESP", function(state)
+createToggle(tab_esp, "Enable 3D Box ESP", function(state)
     if state then
         RunService:BindToRenderStep("Luna3D", 200, function()
             for _, p in pairs(Players:GetPlayers()) do
@@ -354,7 +354,7 @@ createToggle(tab_esp, "Enable Premium 3D Box ESP", function(state)
                     if not espBoxes[p] then
                         local b = Instance.new("BoxHandleAdornment", game:GetService("CoreGui"))
                         b.Size = Vector3.new(4, 6, 4)
-                        b.Color3 = Color3.fromRGB(255, 255, 255)
+                        b.Color3 = Color3.fromRGB(0, 255, 255)
                         b.AlwaysOnTop = true
                         b.Transparency = 0.6
                         b.Adornee = p.Character.HumanoidRootPart
@@ -425,59 +425,73 @@ createToggle(tab_afk, "Enable Anti-AFK Protection", function(state)
     end
 end)
 
+-- 8. Раздел Chams & Materials (Продвинутый Highlight неон)
+local activeChams = {}
+createToggle(tab_chm, "Minecraft Shader Chams", function(state)
+    if state then
+        RunService:BindToRenderStep("LunaChams", 200, function()
+            for _, p in pairs(Players:GetPlayers()) do
+                if p ~= LocalPlayer and p.Character and not activeChams[p] then
+                    local hl = Instance.new("Highlight")
+                    hl.FillColor = Color3.fromRGB(138, 43, 226)
+                    hl.OutlineColor = Color3.fromRGB(0, 255, 255)
+                    hl.FillTransparency = 0.4
+                    hl.OutlineTransparency = 0
+                    hl.Adornee = p.Character
+                    hl.Parent = game:GetService("CoreGui")
+                    activeChams[p] = hl
+                end
+            end
+        end)
+    else
+        RunService:UnbindFromRenderStep("LunaChams")
+        for _, hl in pairs(activeChams) do hl:Destroy() end
+        activeChams = {}
+    end
+end)
+
+-- 9. Раздел World Modulation (Night Mode и Космическое небо)
+local originalTime = Lighting.TimeOfDay
+createToggle(tab_wld, "Minecraft Night Mode", function(state)
+    Lighting.TimeOfDay = state and "00:00:00" or originalTime
+end)
+
+-- 10. Раздел Ambience & Skybox (Fullbright)
+createToggle(tab_lit, "Enable Fullbright", function(state)
+    Lighting.Ambient = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(128, 128, 128)
+    Lighting.OutdoorAmbient = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(128, 128, 128)
+end)
+
 -- ==========================================
 -- ИСПРАВЛЕННЫЙ ХОТКЕЙ И РЕАЛЬНЫЕ 360 ВЬЮПОРТЫ
 -- ==========================================
 
--- Кнопка закрытия меню на RIGHT SHIFT
+-- Кнопка закрытия меню на RIGHT SHIFT (Внутренняя логика)
 UserInputService.InputBegan:Connect(function(input, processed)
     if not processed and input.KeyCode == Enum.KeyCode.RightShift then
         LunaGui.Enabled = not LunaGui.Enabled
     end
 end)
 
--- Функция создания красивого вращающегося скина
-local function setupViewportModel(viewport, isBacon)
-    local cam = Instance.new("Camera", viewport)
+-- Продвинутая функция реального клонирования твоего персонажа во вьюпорт
+local function setupPlayerViewport()
+    local cam = Instance.new("Camera", PreviewViewport)
     cam.FieldOfView = 40
-    viewport.CurrentCamera = cam
+    PreviewViewport.CurrentCamera = cam
     
-    local model = Instance.new("Model", viewport)
-    
-    local torso = Instance.new("Part", model)
-    torso.Name = "Torso"
-    torso.Size = Vector3.new(1.6, 2, 0.8)
-    torso.Color = isBacon and Color3.fromRGB(168, 75, 62) or Color3.fromRGB(40, 40, 40)
-    torso.Material = Enum.Material.Neon
-    torso.Position = Vector3.new(0, 0, 0)
-    
-    local head = Instance.new("Part", model)
-    head.Name = "Head"
-    head.Size = Vector3.new(1, 1, 1)
-    head.Color = Color3.fromRGB(220, 170, 150)
-    head.Position = Vector3.new(0, 1.4, 0)
-    
-    if isBacon then
-        local hair = Instance.new("Part", model)
-        hair.Size = Vector3.new(1.2, 0.3, 1.2)
-        hair.Color = Color3.fromRGB(60, 35, 20)
-        hair.Material = Enum.Material.SmoothPlastic
-        hair.Position = Vector3.new(0, 1.9, 0)
-    end
-    
-    local sb = Instance.new("SelectionBox", viewport)
-    sb.Adornee = model
-    sb.Color3 = Color3.fromRGB(255, 255, 255)
-    sb.LineThickness = 0.02
-    
-    local angle = 0
-    RunService.RenderStepped:Connect(function(dt)
-        angle = angle + (dt * 30)
-        local rad = math.radians(angle)
-        cam.CFrame = CFrame.new(Vector3.new(math.sin(rad) * 4.5, 0.6, math.cos(rad) * 4.5), Vector3.new(0, 0.4, 0))
-    end)
-end
-
--- Запуск рендеров манекенов
-setupViewportModel(PreviewViewport, false)
-setupViewportModel(SideViewport, true)
+    local function refreshCharacter()
+        PreviewViewport:ClearAllChildren()
+        local originalChar = LocalPlayer.Character
+        if originalChar then
+            originalChar.Archivable = true
+            local clone = originalChar:Clone()
+            clone.Parent = PreviewViewport
+            originalChar.Archivable = false
+            
+            local hrp = clone:WaitForChild("HumanoidRootPart", 5)
+            if hrp then
+                local angle = 0
+                RunService.RenderStepped:Connect(function(dt)
+                    if clone and clone.Parent then
+                        angle = angle + (dt * 30)
+                        local rad = math.radians(angle)
