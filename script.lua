@@ -1,5 +1,5 @@
--- [[ LUNA BY ALTRON: PREMIUM VISUALS SUITE (PART 1) ]] --
--- Цена: 10$ / 1000 RUB | Разработчик: ALTRON
+-- [[ Luna By ALTRON - PREMIUM VISUALS SUITE (PART 1) ]] --
+-- Price: 10$ / 1000 RUB | Developer: ALTRON
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -9,42 +9,77 @@ local Lighting = game:GetService("Lighting")
 local UserInputService = game:GetService("UserInputService")
 local Camera = workspace.CurrentCamera
 
--- Очистка старых версий скрипта
 if game:GetService("CoreGui"):FindFirstChild("LunaByAltron") then
     game:GetService("CoreGui"):FindFirstChild("LunaByAltron"):Destroy()
 end
 
--- Создание ScreenGui
 local LunaGui = Instance.new("ScreenGui")
 LunaGui.Name = "LunaByAltron"
 LunaGui.ResetOnSpawn = false
 LunaGui.Parent = game:GetService("CoreGui")
 
--- Главный фрейм меню
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 750, 0, 480)
 MainFrame.Position = UDim2.new(0.5, -375, 0.5, -240)
-MainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 MainFrame.BorderSizePixel = 1
-MainFrame.BorderColor3 = Color3.fromRGB(68, 68, 68)
+MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Parent = LunaGui
 
--- Второе окно (Вьюпорт Бекона справа)
+local PreviewPane = Instance.new("Frame")
+PreviewPane.Size = UDim2.new(0, 240, 0, 480)
+PreviewPane.Position = UDim2.new(1, -240, 0, 0)
+PreviewPane.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+PreviewPane.BorderSizePixel = 0
+PreviewPane.Parent = MainFrame
+
+local PreviewTitle = Instance.new("TextLabel")
+PreviewTitle.Size = UDim2.new(1, 0, 0, 30)
+PreviewTitle.BackgroundTransparency = 1
+PreviewTitle.Text = "SKIN VISUALIZER"
+PreviewTitle.TextColor3 = Color3.fromRGB(120, 120, 120)
+PreviewTitle.TextSize = 10
+PreviewTitle.Font = Enum.Font.GothamBold
+PreviewTitle.Parent = PreviewPane
+
+local PreviewViewport = Instance.new("ViewportFrame")
+PreviewViewport.Size = UDim2.new(1, -20, 0, 220)
+PreviewViewport.Position = UDim2.new(0, 10, 0, 30)
+PreviewViewport.BackgroundTransparency = 1
+PreviewViewport.Parent = PreviewPane
+
+local FurryBait = Instance.new("Frame")
+FurryBait.Size = UDim2.new(1, -20, 0, 180)
+FurryBait.Position = UDim2.new(0, 10, 1, -200)
+FurryBait.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+FurryBait.BorderSizePixel = 1
+FurryBait.BorderColor3 = Color3.fromRGB(30, 30, 30)
+FurryBait.Parent = PreviewPane
+
+local FurryText = Instance.new("TextLabel")
+FurryText.Size = UDim2.new(1, 0, 1, 0)
+FurryText.BackgroundTransparency = 1
+FurryText.Text = "LUNA WAIFU RENDER\n[Premium Bait Active]"
+FurryText.TextColor3 = Color3.fromRGB(80, 80, 80)
+FurryText.TextSize = 11
+FurryText.Font = Enum.Font.GothamBold
+FurryText.Parent = FurryBait
+
 local SideMenu = Instance.new("Frame")
 SideMenu.Name = "SideMenu"
 SideMenu.Size = UDim2.new(0, 260, 0, 480)
 SideMenu.Position = UDim2.new(1, 10, 0, 0)
-SideMenu.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+SideMenu.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 SideMenu.BorderSizePixel = 1
-SideMenu.BorderColor3 = Color3.fromRGB(68, 68, 68)
+SideMenu.BorderColor3 = Color3.fromRGB(50, 50, 50)
 SideMenu.Parent = MainFrame
 
 local SideHeader = Instance.new("TextLabel")
 SideHeader.Size = UDim2.new(1, 0, 0, 40)
-SideHeader.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
+SideHeader.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
 SideHeader.BorderSizePixel = 0
 SideHeader.Text = "BACON VIEWPORT (360)"
 SideHeader.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -52,24 +87,15 @@ SideHeader.TextSize = 11
 SideHeader.Font = Enum.Font.GothamBold
 SideHeader.Parent = SideMenu
 
--- Вьюпорт Бекона
-local SideContent = Instance.new("Frame")
-SideContent.Size = UDim2.new(1, 0, 1, -40)
-SideContent.Position = UDim2.new(0, 0, 0, 40)
-SideContent.BackgroundColor3 = Color3.fromRGB(9, 9, 9)
-SideContent.BorderSizePixel = 0
-SideContent.Parent = SideMenu
-
 local SideViewport = Instance.new("ViewportFrame")
-SideViewport.Size = UDim2.new(0, 150, 0, 200)
-SideViewport.Position = UDim2.new(0.5, -75, 0.5, -100)
+SideViewport.Size = UDim2.new(1, -20, 1, -60)
+SideViewport.Position = UDim2.new(0, 10, 0, 50)
 SideViewport.BackgroundTransparency = 1
-SideViewport.Parent = SideContent
+SideViewport.Parent = SideMenu
 
--- Боковая панель основного меню
 local Sidebar = Instance.new("Frame")
 Sidebar.Size = UDim2.new(0, 180, 1, 0)
-Sidebar.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
+Sidebar.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
 Sidebar.BorderSizePixel = 0
 Sidebar.Parent = MainFrame
 
@@ -82,36 +108,37 @@ Title.TextSize = 14
 Title.Font = Enum.Font.GothamBold
 Title.Parent = Sidebar
 
--- Блок автора с ценой
-local AuthorBox = Instance.new("Frame")
-AuthorBox.Size = UDim2.new(1, -10, 0, 60)
-AuthorBox.Position = UDim2.new(0, 5, 1, -65)
-AuthorBox.BackgroundColor3 = Color3.fromRGB(7, 7, 7)
-AuthorBox.BorderSizePixel = 0
-AuthorBox.Parent = Sidebar
+local UserProfileBar = Instance.new("Frame")
+UserProfileBar.Size = UDim2.new(1, -10, 0, 70)
+UserProfileBar.Position = UDim2.new(0, 5, 1, -75)
+UserProfileBar.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+UserProfileBar.BorderSizePixel = 0
+UserProfileBar.Parent = Sidebar
 
-local AuthorText = Instance.new("TextLabel")
-AuthorText.Size = UDim2.new(1, 0, 0, 25)
-AuthorText.BackgroundTransparency = 1
-AuthorText.Text = "Developer: ALTRON"
-AuthorText.TextColor3 = Color3.fromRGB(255, 255, 255)
-AuthorText.TextSize = 11
-AuthorText.Font = Enum.Font.GothamSemibold
-AuthorText.Parent = AuthorBox
+local UserNameLabel = Instance.new("TextLabel")
+UserNameLabel.Size = UDim2.new(1, -10, 0, 20)
+UserNameLabel.Position = UDim2.new(0, 5, 0, 5)
+UserNameLabel.BackgroundTransparency = 1
+UserNameLabel.Text = "User: " .. LocalPlayer.Name
+UserNameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+UserNameLabel.TextSize = 11
+UserNameLabel.Font = Enum.Font.GothamBold
+UserNameLabel.TextXAlignment = Enum.TextXAlignment.Left
+UserNameLabel.Parent = UserProfileBar
 
 local PriceText = Instance.new("TextLabel")
-PriceText.Size = UDim2.new(1, 0, 0, 25)
-PriceText.Position = UDim2.new(0, 0, 0, 25)
+PriceText.Size = UDim2.new(1, -10, 0, 15)
+PriceText.Position = UDim2.new(0, 5, 0, 25)
 PriceText.BackgroundTransparency = 1
 PriceText.Text = "Normal: 10$ / 1000 RUB"
 PriceText.TextColor3 = Color3.fromRGB(168, 75, 62)
 PriceText.TextSize = 9
 PriceText.Font = Enum.Font.Gotham
-PriceText.Parent = AuthorBox
+PriceText.TextXAlignment = Enum.TextXAlignment.Left
+PriceText.Parent = UserProfileBar
 
--- Скролл для табов
 local ScrollTabs = Instance.new("ScrollingFrame")
-ScrollTabs.Size = UDim2.new(1, 0, 1, -120)
+ScrollTabs.Size = UDim2.new(1, 0, 1, -135)
 ScrollTabs.Position = UDim2.new(0, 0, 0, 50)
 ScrollTabs.BackgroundTransparency = 1
 ScrollTabs.CanvasSize = UDim2.new(0, 0, 0, 620)
@@ -122,16 +149,13 @@ local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.Padding = UDim.new(0, 2)
 UIListLayout.Parent = ScrollTabs
 
--- Контейнер страниц
 local ContentContainer = Instance.new("Frame")
-ContentContainer.Size = UDim2.new(1, -190, 1, -10)
+ContentContainer.Size = UDim2.new(1, -430, 1, -10)
 ContentContainer.Position = UDim2.new(0, 185, 0, 5)
 ContentContainer.BackgroundTransparency = 1
 ContentContainer.Parent = MainFrame
 
 local Pages = {}
-local Toggles = {}
-
 local function createPage(pageName)
     local PageFrame = Instance.new("ScrollingFrame")
     PageFrame.Size = UDim2.new(1, 0, 1, 0)
@@ -142,17 +166,16 @@ local function createPage(pageName)
     PageFrame.Parent = ContentContainer
     
     local List = Instance.new("UIListLayout")
-    List.Padding = UDim.new(0, 8)
+    List.Padding = UDim.new(0, 6)
     List.Parent = PageFrame
-    
     Pages[pageName] = PageFrame
     
     local TabBtn = Instance.new("TextButton")
-    TabBtn.Size = UDim2.new(1, -10, 0, 28)
-    TabBtn.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+    TabBtn.Size = UDim2.new(1, -10, 0, 26)
+    TabBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     TabBtn.BackgroundTransparency = 1
     TabBtn.Text = "  " .. pageName
-    TabBtn.TextColor3 = Color3.fromRGB(136, 136, 136)
+    TabBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
     TabBtn.TextXAlignment = Enum.TextXAlignment.Left
     TabBtn.Font = Enum.Font.GothamSemibold
     TabBtn.TextSize = 11
@@ -161,22 +184,20 @@ local function createPage(pageName)
     TabBtn.MouseButton1Click:Connect(function()
         for _, p in pairs(Pages) do p.Visible = false end
         for _, b in pairs(ScrollTabs:GetChildren()) do
-            if b:IsA("TextButton") then b.BackgroundTransparency = 1 b.TextColor3 = Color3.fromRGB(136, 136, 136) end
+            if b:IsA("TextButton") then b.BackgroundTransparency = 1 b.TextColor3 = Color3.fromRGB(120, 120, 120) end
         end
         PageFrame.Visible = true
         TabBtn.BackgroundTransparency = 0
         TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     end)
-    
     return PageFrame
 end
 
 local function createToggle(pageFrame, toggleName, callback)
     local Row = Instance.new("Frame")
     Row.Size = UDim2.new(1, -10, 0, 35)
-    Row.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
-    Row.BorderSizePixel = 1
-    Row.BorderColor3 = Color3.fromRGB(40, 40, 40)
+    Row.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+    Row.BorderSizePixel = 0
     Row.Parent = pageFrame
     
     local Label = Instance.new("TextLabel")
@@ -184,128 +205,129 @@ local function createToggle(pageFrame, toggleName, callback)
     Label.Position = UDim2.new(0, 10, 0, 0)
     Label.BackgroundTransparency = 1
     Label.Text = toggleName
-    Label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    Label.TextColor3 = Color3.fromRGB(180, 180, 180)
     Label.TextXAlignment = Enum.TextXAlignment.Left
     Label.Font = Enum.Font.Gotham
-    Label.TextSize = 12
+    Label.TextSize = 11
     Label.Parent = Row
     
     local Btn = Instance.new("TextButton")
     Btn.Size = UDim2.new(0, 45, 0, 20)
     Btn.Position = UDim2.new(1, -55, 0, 7)
-    Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    Btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     Btn.Text = "OFF"
-    Btn.TextColor3 = Color3.fromRGB(136, 136, 136)
+    Btn.TextColor3 = Color3.fromRGB(120, 120, 120)
     Btn.Font = Enum.Font.GothamBold
-    Btn.TextSize = 10
+    Btn.TextSize = 9
     Btn.Parent = Row
     
-    Toggles[toggleName] = false
-    
+    local active = false
     Btn.MouseButton1Click:Connect(function()
-        Toggles[toggleName] = not Toggles[toggleName]
-        if Toggles[toggleName] then
-            Btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            Btn.TextColor3 = Color3.fromRGB(0, 0, 0)
-            Btn.Text = "ON"
-        else
-            Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-            Btn.TextColor3 = Color3.fromRGB(136, 136, 136)
-            Btn.Text = "OFF"
-        end
-        callback(Toggles[toggleName])
+        active = not active
+        Btn.BackgroundColor3 = active and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(35, 35, 35)
+        Btn.TextColor3 = active and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(120, 120, 120)
+        Btn.Text = active and "ON" or "OFF"
+        callback(active)
     end)
 end
 
--- Инициализация 20 страниц в строго текстовом формате
-local tab_visuals      = createPage("Visuals")
-local tab_skins        = createPage("Skin Changer")
-local tab_esp          = createPage("ESP & Arrows")
-local tab_movement     = createPage("Movement & Songs")
-local tab_exploits     = createPage("Exploits")
-local tab_screen       = createPage("Screen & Saturation")
-local tab_particles    = createPage("Particles Settings")
-local tab_animations   = createPage("Emotes & Animations")
-local tab_optimization = createPage("Optimization")
-local tab_cfg          = createPage("Configs")
-local tab_antiafk      = createPage("Anti-AFK System")
-local tab_chams        = createPage("Chams & Materials")
-local tab_world        = createPage("World Modulation")
-local tab_lighting     = createPage("Ambience & Skybox")
-local tab_hitmarkers   = createPage("Hitmarkers & UI")
-local tab_crosshair    = createPage("Crosshair Customizer")
-local tab_misc         = createPage("Miscellaneous")
-local tab_hotkeys      = createPage("Binds & Hotkeys")
-local tab_players      = createPage("Player List Exploit")
-local tab_settings     = createPage("Menu Settings")
+local tab_vis = createPage("Visuals")
+local tab_skn = createPage("Skin Changer")
+local tab_esp = createPage("ESP & Arrows")
+local tab_mov = createPage("Movement & Songs")
+local tab_exp = createPage("Exploits")
+local tab_scr = createPage("Screen & Saturation")
+local tab_prt = createPage("Particles Settings")
+local tab_anm = createPage("Emotes & Animations")
+local tab_opt = createPage("Optimization")
+local tab_cfg = createPage("Configs")
+local tab_afk = createPage("Anti-AFK System")
+local tab_chm = createPage("Chams & Materials")
+local tab_wld = createPage("World Modulation")
+local tab_lit = createPage("Ambience & Skybox")
+local tab_hit = createPage("Hitmarkers & UI")
+local tab_crs = createPage("Crosshair Customizer")
+local tab_msc = createPage("Miscellaneous")
+local tab_hkt = createPage("Binds & Hotkeys")
+local tab_plr = createPage("Player List Exploit")
+local tab_set = createPage("Menu Settings")
 
 Pages["Visuals"].Visible = true
 -- [[ LUNA BY ALTRON: PREMIUM VISUALS SUITE (PART 2) ]] --
 
 -- НАПОЛНЕНИЕ РАЗДЕЛОВ И ЛОГИКА ФУНКЦИЙ
 
--- 1. Раздел Visuals (Основные визуальные эффекты)
-createToggle(tab_visuals, "Chinese Hat", function(state)
+-- 1. Раздел Visuals (Премиум-кристалл над головой и Лазерное светящееся кольцо)
+local hatConnection = nil
+createToggle(tab_vis, "Premium Diamond Indicator", function(state)
     local char = LocalPlayer.Character
     if state and char and char:FindFirstChild("Head") then
-        local hat = Instance.new("Part")
-        hat.Name = "LunaChineseHat"
-        hat.Size = Vector3.new(2, 0.4, 2)
-        hat.Color = Color3.fromRGB(255, 255, 255)
-        hat.CanCollide = false
-        hat.Parent = char
-        local weld = Instance.new("Weld")
+        local crystal = Instance.new("Part")
+        crystal.Name = "LunaPremiumCrystal"
+        crystal.Size = Vector3.new(0.6, 1.2, 0.6)
+        crystal.Color = Color3.fromRGB(255, 255, 255)
+        crystal.Material = Enum.Material.Neon
+        crystal.CanCollide = false
+        crystal.Parent = char
+        
+        local mesh = Instance.new("SpecialMesh", crystal)
+        mesh.MeshType = Enum.MeshType.Prism
+        mesh.Scale = Vector3.new(1, 1, 1)
+        
+        local weld = Instance.new("Weld", crystal)
         weld.Part0 = char.Head
-        weld.Part1 = hat
-        weld.C0 = CFrame.new(0, 0.8, 0)
-        weld.Parent = hat
-        local mesh = Instance.new("SpecialMesh")
-        mesh.MeshType = Enum.MeshType.Cone
-        mesh.Scale = Vector3.new(2.5, 0.5, 2.5)
-        mesh.Parent = hat
-    else
-        if char and char:FindFirstChild("LunaChineseHat") then char.LunaChineseHat:Destroy() end
-    end
-end)
-
-createToggle(tab_visuals, "3D Demon Wings", function(state)
-    local char = LocalPlayer.Character
-    local baseTorso = char and (char:FindFirstChild("UpperTorso") or char:FindFirstChild("Torso"))
-    if state and baseTorso then
-        local wings = Instance.new("Part")
-        wings.Name = "LunaWings"
-        wings.Size = Vector3.new(4, 3, 0.2)
-        wings.Color = Color3.fromRGB(30, 30, 30)
-        wings.CanCollide = false
-        wings.Parent = char
-        local weld = Instance.new("Weld")
-        weld.Part0 = baseTorso
-        weld.Part1 = wings
-        weld.C0 = CFrame.new(0, 0, 0.6)
-        weld.Parent = wings
-        local mesh = Instance.new("SpecialMesh")
-        mesh.MeshType = Enum.MeshType.FileMesh
-        mesh.MeshId = "rbxassetid://13470701147"
-        mesh.Scale = Vector3.new(1.5, 1.5, 1.5)
-        mesh.Parent = wings
-    else
-        if char and char:FindFirstChild("LunaWings") then char.LunaWings:Destroy() end
-    end
-end)
-
-createToggle(tab_visuals, "Neon Glow Body", function(state)
-    local char = LocalPlayer.Character
-    if char then
-        for _, p in pairs(char:GetChildren()) do
-            if p:IsA("BasePart") then
-                p.Material = state and Enum.Material.Neon or Enum.Material.SmoothPlastic
+        weld.Part1 = crystal
+        weld.C0 = CFrame.new(0, 1.5, 0)
+        
+        local spinAngle = 0
+        hatConnection = RunService.Heartbeat:Connect(function()
+            if crystal and crystal.Parent then
+                spinAngle = spinAngle + 2
+                local hover = math.sin(tick() * 3) * 0.15
+                weld.C0 = CFrame.new(0, 1.5 + hover, 0) * CFrame.Angles(0, math.radians(spinAngle), 0)
             end
-        end
+        end)
+    else
+        if hatConnection then hatConnection:Disconnect() hatConnection = nil end
+        if char and char:FindFirstChild("LunaPremiumCrystal") then char.LunaPremiumCrystal:Destroy() end
     end
 end)
 
--- 2. Раздел Skin Changer (Внешний вид)
-createToggle(tab_skins, "Visual Headless Chicken", function(state)
+createToggle(tab_vis, "Neon Pulse Laser Ring", function(state)
+    local char = LocalPlayer.Character
+    if state and char and char:FindFirstChild("HumanoidRootPart") then
+        local ring = Instance.new("Part")
+        ring.Name = "LunaLaserRing"
+        ring.Size = Vector3.new(4, 0.05, 4)
+        ring.Color = Color3.fromRGB(255, 255, 255)
+        ring.Material = Enum.Material.Neon
+        ring.CanCollide = false
+        ring.Parent = char
+        
+        local mesh = Instance.new("SpecialMesh", ring)
+        mesh.MeshType = Enum.MeshType.FileMesh
+        mesh.MeshId = "rbxassetid://3270017"
+        mesh.Scale = Vector3.new(5, 5, 0.2)
+        
+        local weld = Instance.new("Weld", ring)
+        weld.Part0 = char.HumanoidRootPart
+        weld.Part1 = ring
+        weld.C0 = CFrame.new(0, -3.1, 0)
+        
+        task.spawn(function()
+            while state and ring and ring.Parent do
+                local scale = 5 + math.sin(tick() * 5) * 0.4
+                mesh.Scale = Vector3.new(scale, scale, 0.2)
+                task.wait()
+            end
+        end)
+    else
+        if char and char:FindFirstChild("LunaLaserRing") then char.LunaLaserRing:Destroy() end
+    end
+end)
+
+-- 2. Раздел Skin Changer
+createToggle(tab_skn, "Visual Headless", function(state)
     local char = LocalPlayer.Character
     if char and char:FindFirstChild("Head") then
         char.Head.Transparency = state and 1 or 0
@@ -313,7 +335,7 @@ createToggle(tab_skins, "Visual Headless Chicken", function(state)
     end
 end)
 
-createToggle(tab_skins, "Visual Korblox Deathspeaker Leg", function(state)
+createToggle(tab_skn, "Visual Korblox Leg", function(state)
     local char = LocalPlayer.Character
     if char and char:FindFirstChild("RightLowerLeg") then
         char.RightLowerLeg.Transparency = state and 1 or 0
@@ -322,62 +344,47 @@ createToggle(tab_skins, "Visual Korblox Deathspeaker Leg", function(state)
     end
 end)
 
--- 3. Раздел ESP & Arrows (Подсветка игроков)
+-- 3. Раздел ESP & Arrows
 local espBoxes = {}
-createToggle(tab_esp, "Enable 3D Box ESP", function(state)
+createToggle(tab_esp, "Enable Premium 3D Box ESP", function(state)
     if state then
-        RunService:BindToRenderStep("Luna3DESP", Enum.RenderPriority.Camera.Value, function()
-            for _, plr in pairs(Players:GetPlayers()) do
-                if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-                    if not espBoxes[plr] then
-                        local box = Instance.new("BoxHandleAdornment")
-                        box.Size = Vector3.new(4, 6, 4)
-                        box.Color3 = Color3.fromRGB(255, 255, 255)
-                        box.AlwaysOnTop = true
-                        box.ZIndex = 5
-                        box.Transparency = 0.6
-                        box.Adornee = plr.Character.HumanoidRootPart
-                        box.Parent = game:GetService("CoreGui")
-                        espBoxes[plr] = box
+        RunService:BindToRenderStep("Luna3D", 200, function()
+            for _, p in pairs(Players:GetPlayers()) do
+                if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                    if not espBoxes[p] then
+                        local b = Instance.new("BoxHandleAdornment", game:GetService("CoreGui"))
+                        b.Size = Vector3.new(4, 6, 4)
+                        b.Color3 = Color3.fromRGB(255, 255, 255)
+                        b.AlwaysOnTop = true
+                        b.Transparency = 0.6
+                        b.Adornee = p.Character.HumanoidRootPart
+                        espBoxes[p] = b
                     end
                 end
             end
         end)
     else
-        RunService:UnbindFromRenderStep("Luna3DESP")
-        for _, box in pairs(espBoxes) do box:Destroy() end
+        RunService:UnbindFromRenderStep("Luna3D")
+        for _, b in pairs(espBoxes) do b:Destroy() end
         espBoxes = {}
     end
 end)
 
-createToggle(tab_esp, "Enable 2D Box ESP", function(state) end)
-createToggle(tab_esp, "Enable Circle ESP", function(state) end)
-createToggle(tab_esp, "Show Target Distance", function(state) end)
-createToggle(tab_esp, "Show HP Bars", function(state) end)
-
--- 4. Раздел Movement & Songs
-createToggle(tab_movement, "Enable Hit Song Effect", function(state) end)
-
--- 5. Раздел Exploits: НАСТОЯЩИЙ АНТИ-ФЛИНГ
-createToggle(tab_exploits, "Active Anti-Fling Forcefield", function(state)
+-- 4. Раздел Exploits (Настоящий Anti-Fling)
+createToggle(tab_exp, "Active Anti-Fling Forcefield", function(state)
     if state then
-        RunService:BindToRenderStep("LunaAntiFling", Enum.RenderPriority.Physical.Value, function()
-            local char = LocalPlayer.Character
-            if char and char:FindFirstChild("HumanoidRootPart") then
-                for _, part in pairs(char:GetChildren()) do
-                    if part:IsA("BasePart") then
-                        part.Velocity = Vector3.zero
-                        part.RotVelocity = Vector3.zero
-                    end
+        RunService:BindToRenderStep("LunaFling", 100, function()
+            local c = LocalPlayer.Character
+            if c and c:FindFirstChild("HumanoidRootPart") then
+                for _, part in pairs(c:GetChildren()) do 
+                    if part:IsA("BasePart") then part.Velocity, part.RotVelocity = Vector3.zero, Vector3.zero end 
                 end
                 for _, p in pairs(Players:GetPlayers()) do
-                    if p ~= LocalPlayer and p.Character then
-                        local hrp = p.Character:FindFirstChild("HumanoidRootPart")
-                        if hrp and (hrp.Position - char.HumanoidRootPart.Position).Magnitude < 30 then
-                            if hrp.Velocity.Magnitude > 45 or hrp.RotVelocity.Magnitude > 45 then
-                                hrp.Velocity = Vector3.zero
-                                hrp.RotVelocity = Vector3.zero
-                                hrp.CanCollide = false
+                    if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                        local hrp = p.Character.HumanoidRootPart
+                        if (hrp.Position - c.HumanoidRootPart.Position).Magnitude < 30 then
+                            if hrp.Velocity.Magnitude > 40 or hrp.RotVelocity.Magnitude > 40 then
+                                hrp.Velocity, hrp.RotVelocity, hrp.CanCollide = Vector3.zero, Vector3.zero, false
                             end
                         end
                     end
@@ -385,75 +392,92 @@ createToggle(tab_exploits, "Active Anti-Fling Forcefield", function(state)
             end
         end)
     else
-        RunService:UnbindFromRenderStep("LunaAntiFling")
+        RunService:UnbindFromRenderStep("LunaFling")
     end
 end)
 
--- 6. Раздел Screen & Saturation (Экран)
-local ccEffect = Lighting:FindFirstChild("LunaColor") or Instance.new("ColorCorrectionEffect", Lighting)
-ccEffect.Name = "LunaColor"
-
-createToggle(tab_screen, "Max Color Saturation", function(state)
-    ccEffect.Saturation = state and 1.6 or 0
+-- 5. Раздел Screen & Saturation
+local cc = Lighting:FindFirstChild("LunaColor") or Instance.new("ColorCorrectionEffect", Lighting)
+cc.Name = "LunaColor"
+createToggle(tab_scr, "Max Saturation Boost", function(state) cc.Saturation = state and 1.6 or 0 end)
+createToggle(tab_scr, "Stretch Screen Resolution", function(state) 
+    TweenService:Create(Camera, TweenInfo.new(0.4), {FieldOfView = state and 115 or 70}):Play() 
 end)
 
-createToggle(tab_screen, "Stretch Screen Resolution (FOV Boost)", function(state)
-    TweenService:Create(Camera, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {FieldOfView = state and 115 or 70}):Play()
-end)
-
--- 7. Раздел Optimization (ФПС Бустер)
-createToggle(tab_optimization, "Remove Textures & Decals", function(state)
+-- 6. Раздел Optimization
+createToggle(tab_opt, "FPS Booster (Smooth Plastic)", function(state)
     if state then
-        for _, obj in pairs(workspace:GetDescendants()) do
-            if obj:IsA("Texture") or obj:IsA("Decal") then
-                obj.Texture = ""
-            elseif obj:IsA("BasePart") then
-                obj.Material = Enum.Material.SmoothPlastic
-            end
+        for _, o in pairs(workspace:GetDescendants()) do
+            if o:IsA("Texture") or o:IsA("Decal") then o.Texture = ""
+            elseif o:IsA("BasePart") then o.Material = Enum.Material.SmoothPlastic end
         end
     end
 end)
 
-createToggle(tab_optimization, "Disable Dynamic Shadows", function(state)
-    Lighting.GlobalShadows = not state
-end)
-
--- 8. Раздел Anti-AFK System
-createToggle(tab_antiafk, "Enable Anti-AFK Anti-Kick", function(state)
+-- 7. Раздел Anti-AFK
+createToggle(tab_afk, "Enable Anti-AFK Protection", function(state)
     if state then
         LocalPlayer.Idled:Connect(function()
-            local vu = game:GetService("VirtualUser")
-            vu:Button2Down(Vector2.new(0,0), Camera.CFrame)
+            game:GetService("VirtualUser"):Button2Down(Vector2.zero, Camera.CFrame)
             task.wait(0.5)
-            vu:Button2Up(Vector2.new(0,0), Camera.CFrame)
+            game:GetService("VirtualUser"):Button2Up(Vector2.zero, Camera.CFrame)
         end)
     end
 end)
 
--- Секция хоткеев (Открытие и закрытие по Right Shift)
-local isMenuVisible = true
+-- ==========================================
+-- ИСПРАВЛЕННЫЙ ХОТКЕЙ И РЕАЛЬНЫЕ 360 ВЬЮПОРТЫ
+-- ==========================================
+
+-- Кнопка закрытия меню на RIGHT SHIFT
 UserInputService.InputBegan:Connect(function(input, processed)
     if not processed and input.KeyCode == Enum.KeyCode.RightShift then
-        isMenuVisible = not isMenuVisible
-        MainFrame.Visible = isMenuVisible
+        LunaGui.Enabled = not LunaGui.Enabled
     end
 end)
 
--- Рендер манекена Бекона на 360 градусов справа
-task.spawn(function()
-    local SideViewport = MainFrame:WaitForChild("SideMenu"):WaitForChild("SideContent"):WaitForChild("ViewportFrame")
-    local baconChar = game:GetObjects("rbxassetid://10486071375") or Instance.new("Model")
-    baconChar.Name = "BaconDummy"
-    baconChar.Parent = SideViewport
+-- Функция создания красивого вращающегося скина
+local function setupViewportModel(viewport, isBacon)
+    local cam = Instance.new("Camera", viewport)
+    cam.FieldOfView = 40
+    viewport.CurrentCamera = cam
     
-    local sideCam = Instance.new("Camera")
-    sideCam.FieldOfView = 50
-    SideViewport.CurrentCamera = sideCam
-    sideCam.Parent = SideViewport
+    local model = Instance.new("Model", viewport)
     
-    local rotAngle = 0
+    local torso = Instance.new("Part", model)
+    torso.Name = "Torso"
+    torso.Size = Vector3.new(1.6, 2, 0.8)
+    torso.Color = isBacon and Color3.fromRGB(168, 75, 62) or Color3.fromRGB(40, 40, 40)
+    torso.Material = Enum.Material.Neon
+    torso.Position = Vector3.new(0, 0, 0)
+    
+    local head = Instance.new("Part", model)
+    head.Name = "Head"
+    head.Size = Vector3.new(1, 1, 1)
+    head.Color = Color3.fromRGB(220, 170, 150)
+    head.Position = Vector3.new(0, 1.4, 0)
+    
+    if isBacon then
+        local hair = Instance.new("Part", model)
+        hair.Size = Vector3.new(1.2, 0.3, 1.2)
+        hair.Color = Color3.fromRGB(60, 35, 20)
+        hair.Material = Enum.Material.SmoothPlastic
+        hair.Position = Vector3.new(0, 1.9, 0)
+    end
+    
+    local sb = Instance.new("SelectionBox", viewport)
+    sb.Adornee = model
+    sb.Color3 = Color3.fromRGB(255, 255, 255)
+    sb.LineThickness = 0.02
+    
+    local angle = 0
     RunService.RenderStepped:Connect(function(dt)
-        rotAngle = rotAngle + (dt * 25)
-        sideCam.CFrame = CFrame.new(Vector3.new(0, 2, 6)) * CFrame.Angles(0, math.radians(rotAngle), 0)
+        angle = angle + (dt * 30)
+        local rad = math.radians(angle)
+        cam.CFrame = CFrame.new(Vector3.new(math.sin(rad) * 4.5, 0.6, math.cos(rad) * 4.5), Vector3.new(0, 0.4, 0))
     end)
-end)
+end
+
+-- Запуск рендеров манекенов
+setupViewportModel(PreviewViewport, false)
+setupViewportModel(SideViewport, true)
